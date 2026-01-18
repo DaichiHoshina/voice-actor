@@ -67,4 +67,182 @@
     "startDate": "1998-01",
     "type": "join"
   }
+,
+  {
+    "id": "t010",
+    "actorId": "sakurai-takahiro",
+    "agencyId": "81-produce",
+    "startDate": "1996-01",
+    "type": "join"
+  },
+  {
+    "id": "t011",
+    "actorId": "koyasu-takehito",
+    "agencyId": "mausu-promotion",
+    "startDate": "1988-01",
+    "endDate": "2015-03",
+    "type": "join"
+  },
+  {
+    "id": "t012",
+    "actorId": "yukana",
+    "agencyId": "sigma-seven",
+    "startDate": "1993-01",
+    "type": "join"
+  },
+  {
+    "id": "t013",
+    "actorId": "hayashibara-megumi",
+    "agencyId": "arts-vision",
+    "startDate": "1986-01",
+    "endDate": "1998-03",
+    "type": "join"
+  },
+  {
+    "id": "t014",
+    "actorId": "seki-tomokazu",
+    "agencyId": "aoni-production",
+    "startDate": "1991-01",
+    "endDate": "2011-06",
+    "type": "join"
+  },
+  {
+    "id": "t015",
+    "actorId": "mizuki-nana",
+    "agencyId": "sigma-seven",
+    "startDate": "1997-01",
+    "type": "join"
+  },
+  {
+    "id": "t016",
+    "actorId": "sugita-tomokazu",
+    "agencyId": "aoni-production",
+    "startDate": "1998-01",
+    "endDate": "2016-03",
+    "type": "join"
+  },
+  {
+    "id": "t017",
+    "actorId": "kugimiya-rie",
+    "agencyId": "im-enterprise",
+    "startDate": "1998-01",
+    "type": "join"
+  },
+  {
+    "id": "t018",
+    "actorId": "nakamura-yuichi",
+    "agencyId": "sigma-seven",
+    "startDate": "2001-01",
+    "type": "join"
+  },
+  {
+    "id": "t019",
+    "actorId": "ono-daisuke",
+    "agencyId": "mausu-promotion",
+    "startDate": "2001-01",
+    "type": "join"
+  },
+  {
+    "id": "t020",
+    "actorId": "sawashiro-miyuki",
+    "agencyId": "mausu-promotion",
+    "startDate": "1999-01",
+    "endDate": "2014-03",
+    "type": "join"
+  },
+  {
+    "id": "t021",
+    "actorId": "sawashiro-miyuki",
+    "agencyId": "aoni-production",
+    "startDate": "2014-04",
+    "type": "transfer",
+    "note": "マウスプロモーションから移籍"
+  },
+  {
+    "id": "t022",
+    "actorId": "fukuyama-jun",
+    "agencyId": "aksent",
+    "startDate": "1997-01",
+    "endDate": "2017-03",
+    "type": "join"
+  },
+  {
+    "id": "t023",
+    "actorId": "tanaka-rie",
+    "agencyId": "office-pac",
+    "startDate": "1997-01",
+    "type": "join"
+  },
+  {
+    "id": "t024",
+    "actorId": "horie-yui",
+    "agencyId": "arts-vision",
+    "startDate": "1997-01",
+    "type": "join"
+  },
+  {
+    "id": "t025",
+    "actorId": "ishida-akira",
+    "agencyId": "aoni-production",
+    "startDate": "1988-01",
+    "endDate": "2006-03",
+    "type": "join"
+  },
+  {
+    "id": "t026",
+    "actorId": "yamadera-koichi",
+    "agencyId": "office-osawa",
+    "startDate": "1985-01",
+    "endDate": "2020-03",
+    "type": "join"
+  },
+  {
+    "id": "t027",
+    "actorId": "amamiya-sora",
+    "agencyId": "im-enterprise-voice-actor-dept",
+    "startDate": "2012-01",
+    "type": "join"
+  },
+  {
+    "id": "t028",
+    "actorId": "matsuoka-yoshitsugu",
+    "agencyId": "im-enterprise",
+    "startDate": "2009-01",
+    "type": "join"
+  },
+  {
+    "id": "t029",
+    "actorId": "hayami-saori",
+    "agencyId": "im-enterprise",
+    "startDate": "2007-01",
+    "type": "join"
+  },
+  {
+    "id": "t030",
+    "actorId": "eguchi-takuya",
+    "agencyId": "81-produce",
+    "startDate": "2008-01",
+    "type": "join"
+  },
+  {
+    "id": "t031",
+    "actorId": "uchida-maaya",
+    "agencyId": "im-enterprise",
+    "startDate": "2010-01",
+    "type": "join"
+  },
+  {
+    "id": "t032",
+    "actorId": "iguchi-yuka",
+    "agencyId": "office-osawa",
+    "startDate": "2007-01",
+    "type": "join"
+  },
+  {
+    "id": "t033",
+    "actorId": "maeno-tomoaki",
+    "agencyId": "arts-vision",
+    "startDate": "2004-01",
+    "type": "join"
+  }
 ]

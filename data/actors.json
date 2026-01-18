@@ -48,4 +48,166 @@
     "debutYear": 1998,
     "status": "active"
   }
+,
+  {
+    "id": "sakurai-takahiro",
+    "name": "櫻井孝宏",
+    "gender": "male",
+    "debutYear": 1996,
+    "status": "active"
+  },
+  {
+    "id": "koyasu-takehito",
+    "name": "子安武人",
+    "gender": "male",
+    "debutYear": 1988,
+    "status": "active"
+  },
+  {
+    "id": "yukana",
+    "name": "ゆかな",
+    "gender": "female",
+    "debutYear": 1993,
+    "status": "active"
+  },
+  {
+    "id": "hayashibara-megumi",
+    "name": "林原めぐみ",
+    "gender": "female",
+    "debutYear": 1986,
+    "status": "active"
+  },
+  {
+    "id": "seki-tomokazu",
+    "name": "関智一",
+    "gender": "male",
+    "debutYear": 1991,
+    "status": "active"
+  },
+  {
+    "id": "mizuki-nana",
+    "name": "水樹奈々",
+    "gender": "female",
+    "debutYear": 1997,
+    "status": "active"
+  },
+  {
+    "id": "sugita-tomokazu",
+    "name": "杉田智和",
+    "gender": "male",
+    "debutYear": 1998,
+    "status": "active"
+  },
+  {
+    "id": "kugimiya-rie",
+    "name": "釘宮理恵",
+    "gender": "female",
+    "debutYear": 1998,
+    "status": "active"
+  },
+  {
+    "id": "nakamura-yuichi",
+    "name": "中村悠一",
+    "gender": "male",
+    "debutYear": 2001,
+    "status": "active"
+  },
+  {
+    "id": "ono-daisuke",
+    "name": "小野大輔",
+    "gender": "male",
+    "debutYear": 2001,
+    "status": "active"
+  },
+  {
+    "id": "sawashiro-miyuki",
+    "name": "沢城みゆき",
+    "gender": "female",
+    "debutYear": 1999,
+    "status": "active"
+  },
+  {
+    "id": "fukuyama-jun",
+    "name": "福山潤",
+    "gender": "male",
+    "debutYear": 1997,
+    "status": "active"
+  },
+  {
+    "id": "tanaka-rie",
+    "name": "田中理恵",
+    "gender": "female",
+    "debutYear": 1997,
+    "status": "active"
+  },
+  {
+    "id": "horie-yui",
+    "name": "堀江由衣",
+    "gender": "female",
+    "debutYear": 1997,
+    "status": "active"
+  },
+  {
+    "id": "ishida-akira",
+    "name": "石田彰",
+    "gender": "male",
+    "debutYear": 1988,
+    "status": "active"
+  },
+  {
+    "id": "yamadera-koichi",
+    "name": "山寺宏一",
+    "gender": "male",
+    "debutYear": 1985,
+    "status": "active"
+  },
+  {
+    "id": "amamiya-sora",
+    "name": "雨宮天",
+    "gender": "female",
+    "debutYear": 2012,
+    "status": "active"
+  },
+  {
+    "id": "matsuoka-yoshitsugu",
+    "name": "松岡禎丞",
+    "gender": "male",
+    "debutYear": 2009,
+    "status": "active"
+  },
+  {
+    "id": "hayami-saori",
+    "name": "早見沙織",
+    "gender": "female",
+    "debutYear": 2007,
+    "status": "active"
+  },
+  {
+    "id": "eguchi-takuya",
+    "name": "江口拓也",
+    "gender": "male",
+    "debutYear": 2008,
+    "status": "active"
+  },
+  {
+    "id": "uchida-maaya",
+    "name": "内田真礼",
+    "gender": "female",
+    "debutYear": 2010,
+    "status": "active"
+  },
+  {
+    "id": "iguchi-yuka",
+    "name": "井口裕香",
+    "gender": "female",
+    "debutYear": 2007,
+    "status": "active"
+  },
+  {
+    "id": "maeno-tomoaki",
+    "name": "前野智昭",
+    "gender": "male",
+    "debutYear": 2004,
+    "status": "active"
+  }
 ]

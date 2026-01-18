@@ -40,4 +40,87 @@
     "description": "1984年設立。吹き替え・ナレーションに強み。",
     "website": "https://www.kenproduction.co.jp"
   }
+,
+  {
+    "id": "arts-vision",
+    "name": "アーツビジョン",
+    "founded": "1984-04",
+    "status": "active",
+    "description": "1984年設立。声優プロダクション御三家の一つ。",
+    "website": "https://www.artsvision.co.jp"
+  },
+  {
+    "id": "office-osawa",
+    "name": "大沢事務所",
+    "founded": "1984-03",
+    "status": "active",
+    "description": "1984年設立。ベテラン声優から若手まで幅広く所属。",
+    "website": "https://www.oosawa-inc.co.jp"
+  },
+  {
+    "id": "mausu-promotion",
+    "name": "マウスプロモーション",
+    "founded": "1990-10",
+    "status": "active",
+    "description": "1990年設立。ナレーション分野に強みを持つ。",
+    "website": "https://mausu.net"
+  },
+  {
+    "id": "aksent",
+    "name": "アクセント",
+    "founded": "2004-01",
+    "status": "active",
+    "description": "2004年設立。アニメ・ゲーム分野で活躍する声優が多数。",
+    "website": "https://aksent.co.jp"
+  },
+  {
+    "id": "pro-fit",
+    "name": "プロ・フィット",
+    "founded": "2003-07",
+    "status": "active",
+    "parentAgency": "arts-vision",
+    "description": "2003年設立。アーツビジョン系列。",
+    "website": "https://profit-v.com"
+  },
+  {
+    "id": "im-enterprise-voice-actor-dept",
+    "name": "アイムエンタープライズ声優部",
+    "founded": "1997-04",
+    "status": "active",
+    "description": "若手声優の育成に力を入れている。",
+    "website": "https://www.imenterprise.jp"
+  },
+  {
+    "id": "horipro",
+    "name": "ホリプロ",
+    "founded": "1960-01",
+    "status": "active",
+    "description": "芸能プロダクション。声優部門も展開。",
+    "website": "https://www.horipro.co.jp"
+  },
+  {
+    "id": "office-pac",
+    "name": "オフィスPAC",
+    "founded": "1984-07",
+    "status": "active",
+    "description": "1984年設立。ナレーター・声優が多数所属。",
+    "website": "https://www.office-pac.co.jp"
+  },
+  {
+    "id": "raccoon-dog",
+    "name": "賢プロダクション分裂組（仮）",
+    "founded": "2000-01",
+    "status": "dissolved",
+    "dissolved": "2010-12",
+    "parentAgency": "ken-production",
+    "description": "賢プロから分裂した小規模事務所（架空）。"
+  },
+  {
+    "id": "stay-luck",
+    "name": "ステイラック",
+    "founded": "2015-04",
+    "status": "active",
+    "description": "2015年設立の新興事務所。",
+    "website": "https://stay-luck.com"
+  }
 ]
