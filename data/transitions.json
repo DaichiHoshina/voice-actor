@@ -1,0 +1,70 @@
+[
+  {
+    "id": "t001",
+    "actorId": "nozawa-masako",
+    "agencyId": "aoni-production",
+    "startDate": "1970-01",
+    "type": "join",
+    "note": "設立初期から所属"
+  },
+  {
+    "id": "t002",
+    "actorId": "furuya-toru",
+    "agencyId": "aoni-production",
+    "startDate": "1970-01",
+    "type": "join"
+  },
+  {
+    "id": "t003",
+    "actorId": "kamiya-hiroshi",
+    "agencyId": "aoni-production",
+    "startDate": "1994-01",
+    "endDate": "2011-03",
+    "type": "join"
+  },
+  {
+    "id": "t004",
+    "actorId": "kamiya-hiroshi",
+    "agencyId": "aoni-production",
+    "startDate": "2011-04",
+    "type": "transfer",
+    "note": "青二ジュニアから青二プロダクションへ昇格"
+  },
+  {
+    "id": "t005",
+    "actorId": "hanazawa-kana",
+    "agencyId": "81-produce",
+    "startDate": "2007-01",
+    "type": "join"
+  },
+  {
+    "id": "t006",
+    "actorId": "kaji-yuki",
+    "agencyId": "im-enterprise",
+    "startDate": "2004-01",
+    "endDate": "2019-03",
+    "type": "join"
+  },
+  {
+    "id": "t007",
+    "actorId": "kaji-yuki",
+    "agencyId": "aoni-production",
+    "startDate": "2019-04",
+    "type": "transfer",
+    "note": "アイムエンタープライズから移籍"
+  },
+  {
+    "id": "t008",
+    "actorId": "hayami-show",
+    "agencyId": "aoni-production",
+    "startDate": "1980-01",
+    "type": "join"
+  },
+  {
+    "id": "t009",
+    "actorId": "park-romi",
+    "agencyId": "81-produce",
+    "startDate": "1998-01",
+    "type": "join"
+  }
+]

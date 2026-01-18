@@ -1,0 +1,43 @@
+[
+  {
+    "id": "aoni-production",
+    "name": "青二プロダクション",
+    "founded": "1969-04",
+    "status": "active",
+    "description": "1969年設立の老舗声優事務所。多数のベテラン声優が所属。",
+    "website": "https://www.aoni.co.jp"
+  },
+  {
+    "id": "81-produce",
+    "name": "81プロデュース",
+    "founded": "1981-10",
+    "status": "active",
+    "parentAgency": "aoni-production",
+    "description": "1981年に青二プロダクションから独立して設立。",
+    "website": "https://www.81produce.co.jp"
+  },
+  {
+    "id": "im-enterprise",
+    "name": "アイムエンタープライズ",
+    "founded": "1997-04",
+    "status": "active",
+    "description": "1997年設立。中堅・若手声優を多数輩出。",
+    "website": "https://www.imenterprise.jp"
+  },
+  {
+    "id": "sigma-seven",
+    "name": "シグマ・セブン",
+    "founded": "1988-07",
+    "status": "active",
+    "description": "1988年設立。アニメ・ゲーム分野で活躍する声優が多数所属。",
+    "website": "https://www.sigma7.co.jp"
+  },
+  {
+    "id": "ken-production",
+    "name": "賢プロダクション",
+    "founded": "1984-09",
+    "status": "active",
+    "description": "1984年設立。吹き替え・ナレーションに強み。",
+    "website": "https://www.kenproduction.co.jp"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "nozawa-masako",
+    "name": "野沢雅子",
+    "gender": "female",
+    "debutYear": 1963,
+    "status": "active"
+  },
+  {
+    "id": "furuya-toru",
+    "name": "古谷徹",
+    "gender": "male",
+    "debutYear": 1963,
+    "status": "active"
+  },
+  {
+    "id": "kamiya-hiroshi",
+    "name": "神谷浩史",
+    "gender": "male",
+    "debutYear": 1994,
+    "status": "active"
+  },
+  {
+    "id": "hanazawa-kana",
+    "name": "花澤香菜",
+    "gender": "female",
+    "debutYear": 2003,
+    "status": "active"
+  },
+  {
+    "id": "kaji-yuki",
+    "name": "梶裕貴",
+    "gender": "male",
+    "debutYear": 2004,
+    "status": "active"
+  },
+  {
+    "id": "hayami-show",
+    "name": "速水奨",
+    "gender": "male",
+    "debutYear": 1980,
+    "status": "active"
+  },
+  {
+    "id": "park-romi",
+    "name": "朴璐美",
+    "gender": "female",
+    "debutYear": 1998,
+    "status": "active"
+  }
+]

@@ -1,99 +1,36 @@
-# 声優事務所変遷図（Voice Actor Agency Transition Map）
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-声優業界における事務所の統廃合の歴史と個々の声優の所属変遷を可視化するウェブアプリケーション。
+## Getting Started
 
-## 概要
-
-- **タイムライン表示**: 声優の所属変遷を時系列で可視化
-- **ネットワーク図**: 事務所間の関係性（移籍、統廃合）を可視化
-- **検索・フィルタ**: 声優・事務所の検索、年代フィルタリング
-- **レスポンシブ対応**: デスクトップ・モバイル両対応
-
-## 技術スタック
-
-- **Frontend**: Next.js 15 + React 19 + TypeScript
-- **Styling**: Tailwind CSS
-- **可視化**: D3.js
-- **ホスティング**: GitHub Pages
-- **CI/CD**: GitHub Actions
-
-## ディレクトリ構成
-
-```
-voice-actor/
-├── src/
-│   ├── app/              # Next.js App Router
-│   ├── components/       # React コンポーネント
-│   ├── lib/              # ユーティリティ・データ処理
-│   └── types/            # TypeScript 型定義
-├── data/
-│   ├── agencies.json     # 事務所データ
-│   ├── actors.json       # 声優データ
-│   └── transitions.json  # 所属変遷データ
-└── public/               # 静的アセット
-```
-
-## セットアップ
+First, run the development server:
 
 ```bash
-# 依存関係のインストール
-pnpm install
-
-# 開発サーバー起動
+npm run dev
+# or
+yarn dev
+# or
 pnpm dev
-
-# 本番ビルド
-pnpm build
-
-# 静的エクスポート
-pnpm export
+# or
+bun dev
 ```
 
-## データ構造
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Agency（事務所）
-- `id`: 一意識別子
-- `name`: 事務所名
-- `founded`: 設立年月
-- `status`: active | dissolved | merged
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Actor（声優）
-- `id`: 一意識別子
-- `name`: 芸名
-- `debutYear`: デビュー年
-- `status`: active | retired | deceased
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Transition（所属変遷）
-- `actorId`: 声優ID
-- `agencyId`: 事務所ID
-- `startDate`: 所属開始
-- `endDate`: 所属終了
+## Learn More
 
-## 免責事項・権利関係
+To learn more about Next.js, take a look at the following resources:
 
-### プロジェクトの性質
-本プロジェクトは**個人的な資料・研究目的**で作成されたものであり、以下の点を明記します。
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- **非商業目的**: 本サイトおよびデータの販売、商業利用は一切行いません
-- **公開情報のみ**: 掲載する情報は公式サイト、Wikipedia等の公開情報に基づきます
-- **教育・研究目的**: 声優業界の歴史を可視化し、理解を深めることを目的としています
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-### プライバシー・権利への配慮
-- 個人のプライバシーに配慮し、センシティブな情報（本名・生年月日等）は公開情報であっても慎重に扱います
-- 肖像権に配慮し、写真・画像は使用しません
-- 掲載内容に関して削除・修正のご要望がある場合は、GitHub Issueまたはリポジトリ管理者までご連絡ください
+## Deploy on Vercel
 
-### データの正確性
-- 掲載情報の正確性には最大限配慮していますが、誤りが含まれる可能性があります
-- 情報の出典を可能な限り明記し、修正依頼を受け付けます
-- 本サイトの情報を利用したことによる損害について、作成者は責任を負いかねます
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## ライセンス
-
-MIT（コードのみ）
-
-**注**: データ（`data/`配下のJSON）は参照用の資料であり、再配布・商業利用はご遠慮ください。
-
-## 貢献
-
-データの修正・追加はGitHub Issueまたはプルリクエストでお願いします。
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
