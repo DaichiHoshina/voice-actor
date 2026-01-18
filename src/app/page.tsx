@@ -1,7 +1,7 @@
-import { getActors, getAgencies, getTransitions } from '@/lib/data';
-import { HeroSection } from '@/components/home/HeroSection';
-import { StatsSection } from '@/components/home/StatsSection';
-import { FeaturesSection } from '@/components/home/FeaturesSection';
+import { getActors, getAgencies, getTransitions } from "@/lib/data";
+import { HeroSection } from "@/components/home/HeroSection";
+import { StatsSection } from "@/components/home/StatsSection";
+import { FeaturesSection } from "@/components/home/FeaturesSection";
 
 export default async function Home() {
   const [actors, agencies, transitions] = await Promise.all([
@@ -12,8 +12,12 @@ export default async function Home() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <HeroSection />
-      <StatsSection actors={actors} agencies={agencies} transitions={transitions} />
+      <HeroSection actors={actors} agencies={agencies} />
+      <StatsSection
+        actors={actors}
+        agencies={agencies}
+        transitions={transitions}
+      />
       <FeaturesSection />
 
       {/* 免責事項 */}

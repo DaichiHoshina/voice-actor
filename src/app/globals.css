@@ -13,10 +13,44 @@
 }
 
 @theme inline {
+  /* Base Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Font Families */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Color Palette */
+  --color-primary: #3B82F6;
+  --color-accent: #6366F1;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  /* Dark Mode Color Palette */
+  --color-primary-dark: #60A5FA;
+  --color-accent-dark: #818CF8;
+  --color-success-dark: #34D399;
+  --color-warning-dark: #FBBF24;
+  --color-danger-dark: #F87171;
+
+  /* Typography Hierarchy */
+  --font-size-h1: 3rem;
+  --font-size-h2: 2.25rem;
+  --font-size-h3: 1.875rem;
+  --font-size-h4: 1.5rem;
+
+  /* Spacing */
+  --spacing-section-gap: 4rem;
+  --spacing-card-padding: 1.5rem;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 body {

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import type { Agency } from "@/types";
+import { buildLineageTree, getLineageColor, type LineageNode } from "@/lib/lineage-utils";
 
 export interface AgencyLineageTreeProps {
   agencies: Agency[];
@@ -11,7 +12,7 @@ export interface AgencyLineageTreeProps {
 export function AgencyLineageTree({ agencies }: AgencyLineageTreeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 1400 });
+  const [dimensions, setDimensions] = useState({ width: 0, height: 800 });
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
@@ -31,7 +32,7 @@ export function AgencyLineageTree({ agencies }: AgencyLineageTreeProps) {
 
     const resizeObserver = new ResizeObserver((entries) => {
       if (!entries[0]) return;
-      setDimensions({ width: entries[0].contentRect.width, height: 1400 });
+      setDimensions({ width: entries[0].contentRect.width, height: 800 });
     });
     resizeObserver.observe(containerRef.current);
     return () => resizeObserver.disconnect();
@@ -47,11 +48,14 @@ export function AgencyLineageTree({ agencies }: AgencyLineageTreeProps) {
   useEffect(() => {
     if (!svgRef.current || dimensions.width === 0) return;
 
+    // lineage-utils.tsからツリーデータ構築
+    const rootNodes = buildLineageTree(agencies);
+    if (rootNodes.length === 0) return;
+
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const height = dimensions.height;
-    const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+    const margin = { top: 40, right: 120, bottom: 40, left: 120 };
 
     // SVGグループ
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
@@ -61,254 +65,252 @@ export function AgencyLineageTree({ agencies }: AgencyLineageTreeProps) {
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 2])
       .on("zoom", (event) => {
-        g.attr("transform", `translate(${event.transform.x + margin.left},${event.transform.y + margin.top}) scale(${event.transform.k})`);
+        g.attr(
+          "transform",
+          `translate(${event.transform.x + margin.left},${event.transform.y + margin.top}) scale(${event.transform.k})`
+        );
       });
 
     zoomBehaviorRef.current = zoom;
     svg.call(zoom);
 
-    // 手動レイアウト: 各系統を縦に配置
-    const lineageGroups = [
-      {
-        title: "俳協系統",
-        x: 50,
-        items: [
-          { id: "haikyo", y: 0 },
-          { id: "arts-vision", y: 120 },
-          { id: "im-enterprise", y: 240 },
-          { id: "mio-creation", y: 360 },
-          { id: "crazy-box", y: 360 },
-          { id: "vims", y: 360 },
-          { id: "arise-project", y: 360 },
-          { id: "pro-fit", y: 480 },
-          { id: "link-plan", y: 600 },
-          { id: "raccoon-dog", y: 600 },
-        ],
-      },
-      {
-        title: "俳協系統（大沢）",
-        x: 350,
-        items: [
-          { id: "haikyo", y: 0 },
-          { id: "office-osawa", y: 120 },
-        ],
-      },
-      {
-        title: "俳協系統（シグマ）",
-        x: 550,
-        items: [
-          { id: "haikyo", y: 0 },
-          { id: "sigma-seven", y: 120 },
-          { id: "sigma-seven-e", y: 240 },
-        ],
-      },
-      {
-        title: "青二系統",
-        x: 750,
-        items: [
-          { id: "aoni-production", y: 0 },
-          { id: "production-baobab", y: 120 },
-          { id: "81-produce", y: 240 },
-        ],
-      },
-      {
-        title: "賢プロ系統",
-        x: 950,
-        items: [
-          { id: "ken-production", y: 0 },
-          { id: "air-agency", y: 120 },
-        ],
-      },
-      {
-        title: "独立系",
-        x: 1150,
-        items: [
-          { id: "horipro", y: 0 },
-          { id: "mausu-promotion", y: 120 },
-          { id: "aksent", y: 240 },
-          { id: "stay-luck", y: 360 },
-          { id: "calicom", y: 480 },
-          { id: "full-power-production", y: 600 },
-          { id: "inari", y: 720 },
-          { id: "anshery", y: 840 },
-          { id: "pacage", y: 960 },
-        ],
-      },
-    ];
+    // ツリーレイアウト（横向き: x軸=垂直, y軸=水平）
+    const treeLayout = d3.tree<LineageNode>().nodeSize([80, 200]);
 
-    // タイトル描画
-    lineageGroups.forEach((group) => {
-      g.append("text")
-        .attr("x", group.x)
-        .attr("y", -10)
-        .text(group.title)
-        .attr("class", "text-sm font-semibold fill-gray-700 dark:fill-gray-300")
-        .attr("text-anchor", "middle");
+    // 各ルートノードを描画（複数の森）
+    let offsetY = 0;
+
+    rootNodes.forEach((rootData) => {
+      // D3階層データに変換
+      const root = d3.hierarchy(rootData);
+
+      // 初期状態: ルート以外は折りたたむ
+      if (root.children) {
+        root.children.forEach(collapse);
+      }
+
+      // レイアウト適用
+      treeLayout(root);
+
+      // グループ作成（各ルートノード用）
+      const treeGroup = g.append("g").attr("transform", `translate(0,${offsetY})`);
+
+      // ノードとリンクを描画
+      update(root, treeGroup);
+
+      // 次のツリーの開始位置を計算
+      const descendants = root.descendants();
+      const minY = d3.min(descendants, (d) => d.x) ?? 0;
+      const maxY = d3.max(descendants, (d) => d.x) ?? 0;
+      offsetY += maxY - minY + 100;
     });
 
-    // リンク描画
-    lineageGroups.forEach((group) => {
-      group.items.forEach((item, index) => {
-        if (index === 0) return;
-        const agency = agencies.find((a) => a.id === item.id);
-        const parentItem = group.items.find((i) => i.id === agency?.parentAgency);
-        
-        if (parentItem) {
-          g.append("path")
-            .attr("d", `M${group.x},${parentItem.y + 20} L${group.x},${item.y - 20}`)
-            .attr("stroke", "#94a3b8")
-            .attr("stroke-width", 2)
-            .attr("fill", "none")
-            .attr("marker-end", "url(#arrowhead)");
-        }
-      });
-    });
+    // コラプシブル機能: 子ノードを折りたたむ
+    function collapse(d: d3.HierarchyNode<LineageNode>) {
+      if (d.children) {
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        d._children = d.children;
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        d._children.forEach(collapse);
+        d.children = undefined;
+      }
+    }
 
-    // 矢印マーカー定義
-    svg
-      .append("defs")
-      .append("marker")
-      .attr("id", "arrowhead")
-      .attr("markerWidth", 10)
-      .attr("markerHeight", 10)
-      .attr("refX", 8)
-      .attr("refY", 3)
-      .attr("orient", "auto")
-      .append("polygon")
-      .attr("points", "0 0, 10 3, 0 6")
-      .attr("fill", "#94a3b8");
+    // ノードクリックで展開/折りたたみ
+    function toggle(
+      event: MouseEvent | KeyboardEvent,
+      d: d3.HierarchyNode<LineageNode>
+    ) {
+      if (d.children) {
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        d._children = d.children;
+        d.children = undefined;
+      } else {
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        d.children = d._children;
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        d._children = undefined;
+      }
+      update(d, d3.select((event.currentTarget as Element).parentNode?.parentNode as SVGGElement));
+    }
 
-    // ノード描画
-    lineageGroups.forEach((group) => {
-      group.items.forEach((item) => {
-        const agency = agencies.find((a) => a.id === item.id);
-        if (!agency) return;
+    // ツリー更新（アニメーション付き）
+    function update(
+      source: d3.HierarchyNode<LineageNode>,
+      treeGroup: d3.Selection<SVGGElement, unknown, null, undefined>
+    ) {
+      const duration = 300;
 
-        const nodeGroup = g
-          .append("g")
-          .attr("transform", `translate(${group.x},${item.y})`)
-          .attr("tabindex", 0)
-          .attr("role", "button")
-          .attr("aria-label", `${agency.name}の詳細を表示`)
-          .style("cursor", "pointer");
+      // レイアウト再計算
+      treeLayout(source.ancestors()[source.ancestors().length - 1]);
 
-        // 背景矩形
-        const textWidth = agency.name.length * 14 + 20;
-        nodeGroup
-          .append("rect")
-          .attr("x", -textWidth / 2)
-          .attr("y", -15)
-          .attr("width", textWidth)
-          .attr("height", 30)
-          .attr("rx", 5)
-          .attr("fill", agency.status === "dissolved" ? "#fee2e2" : "#dbeafe")
-          .attr("stroke", agency.status === "dissolved" ? "#ef4444" : "#3B82F6")
-          .attr("stroke-width", 2);
+      const nodes = source.descendants();
+      const links = source.links();
 
-        // テキスト
-        nodeGroup
-          .append("text")
-          .text(agency.name)
-          .attr("x", 0)
-          .attr("y", 4)
-          .attr("text-anchor", "middle")
-          .attr("class", "text-sm font-medium")
-          .attr("fill", agency.status === "dissolved" ? "#dc2626" : "#1e40af")
-          .style("pointer-events", "none");
+      // リンク描画（カーブ）
+      const link = treeGroup
+        .selectAll<SVGPathElement, d3.HierarchyLink<LineageNode>>("path.link")
+        .data(links, (d) => (d.target as d3.HierarchyNode<LineageNode> & { data: LineageNode }).data.id);
 
-        const showTooltip = (event: MouseEvent | FocusEvent) => {
-          d3.select(nodeGroup.node() as Element)
-            .select("rect")
-            .attr("stroke-width", 3);
+      // 新規リンク
+      const linkEnter = link
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("fill", "none")
+        .attr("stroke", "#94a3b8")
+        .attr("stroke-width", 2)
+        .attr("d", () => {
+          const o = { x: source.x ?? 0, y: source.y ?? 0 };
+          return diagonal(o, o);
+        });
 
+      // 更新
+      link
+        .merge(linkEnter)
+        .transition()
+        .duration(duration)
+        .attr("d", (d) => diagonal(
+          { x: d.source.x ?? 0, y: d.source.y ?? 0 },
+          { x: d.target.x ?? 0, y: d.target.y ?? 0 }
+        ));
+
+      // 削除
+      link
+        .exit()
+        .transition()
+        .duration(duration)
+        .attr("d", () => {
+          const o = { x: source.x ?? 0, y: source.y ?? 0 };
+          return diagonal(o, o);
+        })
+        .remove();
+
+      // ノード描画
+      const node = treeGroup
+        .selectAll<SVGGElement, d3.HierarchyNode<LineageNode>>("g.node")
+        .data(nodes, (d) => d.data.id);
+
+      // 新規ノード
+      const nodeEnter = node
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", () => `translate(${source.y ?? 0},${source.x ?? 0})`)
+        .attr("tabindex", 0)
+        .attr("role", "button")
+        .attr("aria-label", (d) => `${d.data.name}の詳細を表示`)
+        .style("cursor", "pointer")
+        .on("click", toggle)
+        .on("keydown", function (event, d) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle(event, d);
+          }
+        });
+
+      // ノードの背景矩形
+      nodeEnter
+        .append("rect")
+        .attr("x", (d) => -(d.data.name.length * 7 + 10))
+        .attr("y", -15)
+        .attr("width", (d) => d.data.name.length * 14 + 20)
+        .attr("height", 30)
+        .attr("rx", 5)
+        .attr("fill", (d) => {
+          const color = getLineageColor(d.data.lineageType);
+          return d.data.status === "dissolved" ? "#fee2e2" : color.fill;
+        })
+        .attr("stroke", (d) => {
+          const color = getLineageColor(d.data.lineageType);
+          return d.data.status === "dissolved" ? "#ef4444" : color.stroke;
+        })
+        .attr("stroke-width", 2);
+
+      // ノードのテキスト
+      nodeEnter
+        .append("text")
+        .attr("dy", 4)
+        .attr("text-anchor", "middle")
+        .text((d) => d.data.name)
+        .attr("class", "text-sm font-medium")
+        .attr("fill", (d) => (d.data.status === "dissolved" ? "#dc2626" : "#1e40af"))
+        .style("pointer-events", "none");
+
+      // 折りたたみインジケーター（子がいる場合）
+      nodeEnter
+        .append("circle")
+        .attr("r", 6)
+        .attr("cx", (d) => d.data.name.length * 7 + 20)
+        .attr("cy", 0)
+        .attr("fill", "#3b82f6")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2)
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        .style("display", (d) => (d._children ? "block" : "none"));
+
+      // ツールチップイベント
+      nodeEnter
+        .on("mouseenter", function (event, d) {
+          d3.select(this).select("rect").attr("stroke-width", 3);
+
+          const agencyMap = new Map(agencies.map((a) => [a.id, a]));
           const content = `
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 max-w-sm">
-              <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${agency.name}</h4>
+              <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${d.data.name}</h4>
               <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <div><strong>設立:</strong> ${agency.founded || "不明"}</div>
-                ${agency.dissolved ? `<div><strong>廃業:</strong> ${agency.dissolved}</div>` : ""}
-                ${agency.parentAgency ? `<div><strong>母体:</strong> ${agencies.find((a) => a.id === agency.parentAgency)?.name || "不明"}</div>` : ""}
-                <div><strong>状態:</strong> ${agency.status === "active" ? "運営中" : "廃業"}</div>
-                <div class="mt-2">${agency.description}</div>
+                <div><strong>設立:</strong> ${d.data.founded || "不明"}</div>
+                ${d.data.dissolved ? `<div><strong>廃業:</strong> ${d.data.dissolved}</div>` : ""}
+                ${d.data.parentAgency ? `<div><strong>母体:</strong> ${agencyMap.get(d.data.parentAgency)?.name || "不明"}</div>` : ""}
+                <div><strong>状態:</strong> ${d.data.status === "active" ? "運営中" : "廃業"}</div>
+                <div class="mt-2">${d.data.description}</div>
               </div>
             </div>
           `;
 
-          const pageX = 'pageX' in event ? event.pageX : 0;
-          const pageY = 'pageY' in event ? event.pageY : 0;
-
           setTooltip({
             visible: true,
-            x: pageX + 10,
-            y: pageY + 10,
+            x: event.pageX + 10,
+            y: event.pageY + 10,
             content,
           });
-        };
-
-        const hideTooltip = () => {
-          d3.select(nodeGroup.node() as Element)
-            .select("rect")
-            .attr("stroke-width", 2);
+        })
+        .on("mouseleave", function () {
+          d3.select(this).select("rect").attr("stroke-width", 2);
           setTooltip({ visible: false, x: 0, y: 0, content: "" });
-        };
+        });
 
-        const navigateToDetail = () => {
-          const basePath = process.env.GITHUB_ACTIONS ? "/voice-actor" : "";
-          window.location.href = `${basePath}/agencies/${agency.id}`;
-        };
+      // 更新
+      node
+        .merge(nodeEnter)
+        .transition()
+        .duration(duration)
+        .attr("transform", (d) => `translate(${d.y ?? 0},${d.x ?? 0})`);
 
-        // イベントハンドラ
-        nodeGroup
-          .on("mouseenter", showTooltip)
-          .on("mouseleave", hideTooltip)
-          .on("focus", showTooltip)
-          .on("blur", hideTooltip)
-          .on("click", navigateToDetail)
-          .on("keydown", function (event) {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              navigateToDetail();
-            }
-          });
-      });
-    });
+      // 削除
+      node
+        .exit()
+        .transition()
+        .duration(duration)
+        .attr("transform", () => `translate(${source.y ?? 0},${source.x ?? 0})`)
+        .remove();
 
-    // 凡例
-    const legend = svg.append("g").attr("transform", `translate(20, ${height - 30})`);
+      // インジケーターの更新
+      treeGroup
+        .selectAll<SVGCircleElement, d3.HierarchyNode<LineageNode>>("g.node circle")
+        .transition()
+        .duration(duration)
+        // @ts-expect-error - _childrenはD3のコラプシブルパターン
+        .style("display", (d) => (d._children ? "block" : "none"));
+    }
 
-    legend
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", -10)
-      .attr("width", 60)
-      .attr("height", 20)
-      .attr("rx", 3)
-      .attr("fill", "#dbeafe")
-      .attr("stroke", "#3B82F6")
-      .attr("stroke-width", 2);
-    legend
-      .append("text")
-      .attr("x", 70)
-      .attr("y", 4)
-      .text("運営中")
-      .attr("class", "text-sm fill-gray-900 dark:fill-white");
-
-    legend
-      .append("rect")
-      .attr("x", 130)
-      .attr("y", -10)
-      .attr("width", 60)
-      .attr("height", 20)
-      .attr("rx", 3)
-      .attr("fill", "#fee2e2")
-      .attr("stroke", "#ef4444")
-      .attr("stroke-width", 2);
-    legend
-      .append("text")
-      .attr("x", 200)
-      .attr("y", 4)
-      .text("廃業")
-      .attr("class", "text-sm fill-gray-900 dark:fill-white");
+    // 斜めリンク描画関数
+    function diagonal(s: { x: number; y: number }, d: { x: number; y: number }) {
+      return `M ${s.y} ${s.x}
+              C ${(s.y + d.y) / 2} ${s.x},
+                ${(s.y + d.y) / 2} ${d.x},
+                ${d.y} ${d.x}`;
+    }
   }, [agencies, dimensions.width, dimensions.height]);
 
   return (

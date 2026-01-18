@@ -1,4 +1,5 @@
 import type { Agency } from "@/types";
+import { Card } from '@/components/ui';
 
 export interface AgencyCardProps {
   agency: Agency;
@@ -22,7 +23,7 @@ export function AgencyCard({ agency, actorCount }: AgencyCardProps) {
   const foundedYear = agency.founded?.split("-")[0];
 
   return (
-    <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-gray-900 hover:shadow-lg transition">
+    <Card>
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
           {agency.name}
@@ -70,6 +71,6 @@ export function AgencyCard({ agency, actorCount }: AgencyCardProps) {
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

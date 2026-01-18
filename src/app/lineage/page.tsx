@@ -50,6 +50,15 @@ export default async function LineagePage() {
           </div>
         </div>
 
+        <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">このページでできること</h3>
+          <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+            <li>• 事務所の親子関係・独立元を確認できる</li>
+            <li>• マウスホイールでズーム、ドラッグで移動</li>
+            <li>• ノードクリックで事務所詳細へ</li>
+          </ul>
+        </div>
+
         <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
           <p>💡 ヒント: マウスホイールでズーム、ドラッグで移動、ノードをクリックで詳細ページへ</p>
         </div>

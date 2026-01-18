@@ -1,4 +1,5 @@
 import type { Actor } from '@/types';
+import { Card } from '@/components/ui';
 
 export interface ActorCardProps {
   actor: Actor;
@@ -19,7 +20,7 @@ export function ActorCard({ actor, currentAgency }: ActorCardProps) {
   };
 
   return (
-    <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-gray-900 hover:shadow-lg transition">
+    <Card>
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
           {actor.name}
@@ -62,6 +63,6 @@ export function ActorCard({ actor, currentAgency }: ActorCardProps) {
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

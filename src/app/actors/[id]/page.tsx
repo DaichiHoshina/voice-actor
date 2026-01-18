@@ -1,6 +1,7 @@
-import { getActors, getActorById, getTransitionsByActor, getAgencyById } from '@/lib/data';
+import { getActors, getActorById, getTransitionsByActor, getAgencyById, getTransitionsByAgency } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import type { Actor } from '@/types';
 
 export async function generateStaticParams() {
   const actors = await getActors();
@@ -42,6 +43,24 @@ export default async function ActorDetailPage({ params }: { params: Promise<{ id
       agency: await getAgencyById(t.agencyId),
     }))
   );
+
+  // 現在所属している事務所を取得
+  const currentTransition = transitions.find((t) => !t.endDate);
+  let currentAgencyActors: Actor[] = [];
+  
+  if (currentTransition) {
+    // 同じ事務所の変遷を取得
+    const agencyTransitions = await getTransitionsByAgency(currentTransition.agencyId);
+    // 現在所属している声優のみフィルタ（自分を除く）
+    const currentAgencyTransitions = agencyTransitions.filter(
+      (t) => !t.endDate && t.actorId !== id
+    );
+    // 声優情報を取得
+    const actors = await Promise.all(
+      currentAgencyTransitions.map((t) => getActorById(t.actorId))
+    );
+    currentAgencyActors = actors.filter((a) => a !== null);
+  }
 
   const statusLabels = {
     active: '現役',
@@ -144,6 +163,33 @@ export default async function ActorDetailPage({ params }: { params: Promise<{ id
           )}
         </div>
       </section>
+
+      {/* 同じ事務所の声優 */}
+      {currentAgencyActors.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+            同じ事務所の声優 ({currentAgencyActors.length}名)
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {currentAgencyActors.map((actor) => (
+              <Link
+                key={actor.id}
+                href={`/actors/${actor.id}`}
+                className="p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-gray-900 hover:shadow-lg transition"
+              >
+                <div className="font-semibold text-gray-900 dark:text-white">
+                  {actor.name}
+                </div>
+                {actor.debutYear && (
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {actor.debutYear}年デビュー
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 戻るリンク */}
       <div className="text-center">
