@@ -1,52 +1,46 @@
 [
   {
+    "id": "haikyo",
+    "name": "東京俳優生活協同組合",
+    "aliases": ["俳協"],
+    "founded": "1960-05",
+    "status": "active",
+    "description": "1960年設立。日本唯一の俳優の消費生活協同組合。",
+    "website": "https://haikyo.co.jp"
+  },
+  {
     "id": "aoni-production",
     "name": "青二プロダクション",
     "founded": "1969-04",
     "status": "active",
-    "description": "1969年設立の老舗声優事務所。多数のベテラン声優が所属。",
+    "description": "1969年、久保進によって設立された日本初の声優専門芸能事務所。",
     "website": "https://www.aoni.co.jp"
+  },
+  {
+    "id": "production-baobab",
+    "name": "ぷろだくしょんバオバブ",
+    "founded": "1979-08",
+    "status": "active",
+    "parentAgency": "aoni-production",
+    "description": "1979年、富田耕生ら16名の声優と6名のスタッフが青二プロダクションから独立して設立。",
+    "website": "https://pro-baobab.jp"
   },
   {
     "id": "81-produce",
     "name": "81プロデュース",
     "founded": "1981-10",
     "status": "active",
-    "parentAgency": "aoni-production",
-    "description": "1981年に青二プロダクションから独立して設立。",
+    "parentAgency": "production-baobab",
+    "description": "1981年、南沢道義らがぷろだくしょんバオバブから独立して設立。",
     "website": "https://www.81produce.co.jp"
   },
-  {
-    "id": "im-enterprise",
-    "name": "アイムエンタープライズ",
-    "founded": "1997-04",
-    "status": "active",
-    "description": "1997年設立。中堅・若手声優を多数輩出。",
-    "website": "https://www.imenterprise.jp"
-  },
-  {
-    "id": "sigma-seven",
-    "name": "シグマ・セブン",
-    "founded": "1988-07",
-    "status": "active",
-    "description": "1988年設立。アニメ・ゲーム分野で活躍する声優が多数所属。",
-    "website": "https://www.sigma7.co.jp"
-  },
-  {
-    "id": "ken-production",
-    "name": "賢プロダクション",
-    "founded": "1984-09",
-    "status": "active",
-    "description": "1984年設立。吹き替え・ナレーションに強み。",
-    "website": "https://www.kenproduction.co.jp"
-  }
-,
   {
     "id": "arts-vision",
     "name": "アーツビジョン",
     "founded": "1984-04",
     "status": "active",
-    "description": "1984年設立。声優プロダクション御三家の一つ。",
+    "parentAgency": "haikyo",
+    "description": "1984年、俳協のマネージャーだった松田咲實が独立して設立。",
     "website": "https://www.artsvision.co.jp"
   },
   {
@@ -54,8 +48,26 @@
     "name": "大沢事務所",
     "founded": "1984-03",
     "status": "active",
-    "description": "1984年設立。ベテラン声優から若手まで幅広く所属。",
+    "parentAgency": "haikyo",
+    "description": "1984年、俳協のマネージャーだった大沢一雄が独立して設立。",
     "website": "https://www.oosawa-inc.co.jp"
+  },
+  {
+    "id": "ken-production",
+    "name": "賢プロダクション",
+    "founded": "1984-06",
+    "status": "active",
+    "description": "1984年、声優の内海賢二が設立。",
+    "website": "https://www.kenproduction.co.jp"
+  },
+  {
+    "id": "sigma-seven",
+    "name": "シグマ・セブン",
+    "founded": "1988-03",
+    "status": "active",
+    "parentAgency": "haikyo",
+    "description": "1988年、俳協の牧大介らナレーション志向の声優が独立して設立。",
+    "website": "https://www.sigma7.co.jp"
   },
   {
     "id": "mausu-promotion",
@@ -66,6 +78,43 @@
     "website": "https://mausu.net"
   },
   {
+    "id": "im-enterprise",
+    "name": "アイムエンタープライズ",
+    "founded": "1993-06",
+    "status": "active",
+    "parentAgency": "arts-vision",
+    "description": "1993年、アーツビジョンのグループプロダクションとして設立。",
+    "website": "https://www.imenterprise.jp"
+  },
+  {
+    "id": "mio-creation",
+    "name": "澪クリエーション",
+    "founded": "1998-01",
+    "status": "active",
+    "parentAgency": "arts-vision",
+    "description": "1998年、アーツビジョングループとして設立。",
+    "website": "https://mio-cr.jp"
+  },
+  {
+    "id": "crazy-box",
+    "name": "クレイジーボックス",
+    "founded": "2000-01",
+    "status": "active",
+    "parentAgency": "arts-vision",
+    "description": "2000年、アーツビジョングループとして設立。",
+    "website": "https://www.crazybox.co.jp"
+  },
+  {
+    "id": "pro-fit",
+    "name": "プロ・フィット",
+    "founded": "2003-07",
+    "dissolved": "2022-03",
+    "status": "dissolved",
+    "parentAgency": "im-enterprise",
+    "description": "2003年、アイムエンタープライズのマネージャー谷村誠が独立して設立。2021年廃業発表、2022年3月末で事業終了。",
+    "website": "https://profit-v.com"
+  },
+  {
     "id": "aksent",
     "name": "アクセント",
     "founded": "2004-01",
@@ -74,21 +123,39 @@
     "website": "https://aksent.co.jp"
   },
   {
-    "id": "pro-fit",
-    "name": "プロ・フィット",
-    "founded": "2003-07",
+    "id": "vims",
+    "name": "ヴィムス",
+    "founded": "2007-01",
     "status": "active",
     "parentAgency": "arts-vision",
-    "description": "2003年設立。アーツビジョン系列。",
-    "website": "https://profit-v.com"
+    "description": "2007年、アーツビジョングループとして設立。",
+    "website": "https://www.vims.co.jp"
   },
   {
-    "id": "im-enterprise-voice-actor-dept",
-    "name": "アイムエンタープライズ声優部",
-    "founded": "1997-04",
+    "id": "sigma-seven-e",
+    "name": "シグマ・セブンe",
+    "founded": "2009-10",
     "status": "active",
-    "description": "若手声優の育成に力を入れている。",
-    "website": "https://www.imenterprise.jp"
+    "parentAgency": "sigma-seven",
+    "description": "2009年、シグマ・セブンの関連会社として設立。",
+    "website": "https://www.sigma7e.com"
+  },
+  {
+    "id": "arise-project",
+    "name": "アライズプロジェクト",
+    "founded": "2015-01",
+    "status": "active",
+    "parentAgency": "arts-vision",
+    "description": "2015年、アーツビジョングループとして設立。",
+    "website": "https://arise-pj.co.jp"
+  },
+  {
+    "id": "stay-luck",
+    "name": "ステイラック",
+    "founded": "2015-04",
+    "status": "active",
+    "description": "2015年設立の新興事務所。",
+    "website": "https://stay-luck.com"
   },
   {
     "id": "horipro",
@@ -99,28 +166,65 @@
     "website": "https://www.horipro.co.jp"
   },
   {
-    "id": "office-pac",
-    "name": "オフィスPAC",
-    "founded": "1984-07",
+    "id": "calicom",
+    "name": "CaliCom",
+    "founded": "2020-01",
     "status": "active",
-    "description": "1984年設立。ナレーター・声優が多数所属。",
-    "website": "https://www.office-pac.co.jp"
+    "description": "2020年設立の新興事務所。"
+  },
+  {
+    "id": "air-agency",
+    "name": "AIR AGENCY",
+    "founded": "2006-01",
+    "dissolved": "2021-12",
+    "status": "dissolved",
+    "parentAgency": "ken-production",
+    "description": "2006年、藤原啓治が賢プロダクションから独立して設立。2020年藤原の逝去により2021年廃業。"
   },
   {
     "id": "raccoon-dog",
-    "name": "賢プロダクション分裂組（仮）",
-    "founded": "2000-01",
-    "status": "dissolved",
-    "dissolved": "2010-12",
-    "parentAgency": "ken-production",
-    "description": "賢プロから分裂した小規模事務所（架空）。"
+    "name": "ラクーンドッグ",
+    "founded": "2022-04",
+    "status": "active",
+    "parentAgency": "pro-fit",
+    "description": "2022年、プロ・フィット廃業に伴い岡本信彦・渋谷昌春が共同代表として設立。プロ・フィット所属声優の多くが移籍。",
+    "website": "https://raccoon-dog.co.jp"
   },
   {
-    "id": "stay-luck",
-    "name": "ステイラック",
-    "founded": "2015-04",
+    "id": "link-plan",
+    "name": "リンク・プラン",
+    "founded": "2010-01",
+    "dissolved": "2025-03",
+    "status": "dissolved",
+    "parentAgency": "pro-fit",
+    "description": "プロ・フィット系列として設立。2025年3月事業廃止。"
+  },
+  {
+    "id": "full-power-production",
+    "name": "フルパワープロダクション",
+    "founded": "2024-01",
     "status": "active",
-    "description": "2015年設立の新興事務所。",
-    "website": "https://stay-luck.com"
+    "description": "2024年、声優の松岡禎丞が設立。"
+  },
+  {
+    "id": "inari",
+    "name": "i.nari",
+    "founded": "2024-01",
+    "status": "active",
+    "description": "2024年設立。"
+  },
+  {
+    "id": "anshery",
+    "name": "アンシェリ",
+    "founded": "2025-01",
+    "status": "active",
+    "description": "2025年設立。"
+  },
+  {
+    "id": "pacage",
+    "name": "PACage",
+    "founded": "2025-01",
+    "status": "active",
+    "description": "2025年設立。"
   }
 ]
