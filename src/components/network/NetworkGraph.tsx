@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import type { Actor, Agency, Transition } from "@/types";
 
@@ -42,6 +42,7 @@ export function NetworkGraph({
     y: 0,
     content: "",
   });
+  const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
 
   // リサイズ監視
   useEffect(() => {
@@ -58,6 +59,13 @@ export function NetworkGraph({
     return () => {
       resizeObserver.disconnect();
     };
+  }, []);
+
+  // ズームリセット関数
+  const handleReset = useCallback(() => {
+    if (!svgRef.current || !zoomBehaviorRef.current) return;
+    const svg = d3.select(svgRef.current);
+    svg.transition().duration(750).call(zoomBehaviorRef.current.transform, d3.zoomIdentity);
   }, []);
 
   useEffect(() => {
@@ -119,6 +127,7 @@ export function NetworkGraph({
         g.attr("transform", event.transform.toString());
       });
 
+    zoomBehaviorRef.current = zoom;
     svg.call(zoom);
 
     // リンク描画
@@ -137,6 +146,9 @@ export function NetworkGraph({
       .selectAll<SVGGElement, Node>("g")
       .data(nodes)
       .join("g")
+      .attr("tabindex", 0)
+      .attr("role", "button")
+      .attr("aria-label", (d) => `${d.name}の詳細を表示`)
       .style("cursor", "pointer")
       .call(
         d3
@@ -157,10 +169,10 @@ export function NetworkGraph({
           }),
       ) as unknown as d3.Selection<SVGGElement, Node, SVGGElement, unknown>;
 
-    // 円描画
+    // 円描画（最小サイズ22px = タッチターゲット44x44px）
     node
       .append("circle")
-      .attr("r", (d) => (d.type === "agency" ? 20 : 10))
+      .attr("r", (d) => (d.type === "agency" ? 22 : 22))
       .attr("fill", (d) => {
         if (d.type === "agency") return "#3B82F6"; // 青
         const actor = d.data as Actor;
@@ -176,51 +188,72 @@ export function NetworkGraph({
       .append("text")
       .text((d) => d.name)
       .attr("x", 0)
-      .attr("y", (d) => (d.type === "agency" ? 30 : 20))
+      .attr("y", 32)
       .attr("text-anchor", "middle")
       .attr("class", "text-xs fill-gray-900 dark:fill-white")
       .style("pointer-events", "none");
 
-    // ホバーイベント
+    const showTooltip = (event: MouseEvent | FocusEvent, d: Node) => {
+      d3.select((event.currentTarget as SVGGElement))
+        .select("circle")
+        .attr("stroke-width", 4);
+
+      const content =
+        d.type === "agency"
+          ? `<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
+               <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${d.name}</h4>
+               <div class="text-sm text-gray-600 dark:text-gray-400">
+                 <div>事務所</div>
+                 <div>設立: ${(d.data as Agency).founded || "不明"}</div>
+               </div>
+             </div>`
+          : `<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
+               <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${d.name}</h4>
+               <div class="text-sm text-gray-600 dark:text-gray-400">
+                 <div>声優</div>
+                 <div>デビュー: ${(d.data as Actor).debutYear || "不明"}年</div>
+               </div>
+             </div>`;
+
+      const pageX = 'pageX' in event ? event.pageX : 0;
+      const pageY = 'pageY' in event ? event.pageY : 0;
+
+      setTooltip({
+        visible: true,
+        x: pageX + 10,
+        y: pageY + 10,
+        content,
+      });
+    };
+
+    const hideTooltip = (event: MouseEvent | FocusEvent) => {
+      d3.select((event.currentTarget as SVGGElement))
+        .select("circle")
+        .attr("stroke-width", 2);
+      setTooltip({ visible: false, x: 0, y: 0, content: "" });
+    };
+
+    const navigateToDetail = (d: Node) => {
+      const basePath = process.env.GITHUB_ACTIONS ? "/voice-actor" : "";
+      const url =
+        d.type === "agency"
+          ? `${basePath}/agencies/${d.id}`
+          : `${basePath}/actors/${d.id}`;
+      window.location.href = url;
+    };
+
+    // イベントハンドラ
     node
-      .on("mouseenter", function (event, d) {
-        d3.select(this).select("circle").attr("stroke-width", 4);
-
-        const content =
-          d.type === "agency"
-            ? `<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
-                 <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${d.name}</h4>
-                 <div class="text-sm text-gray-600 dark:text-gray-400">
-                   <div>事務所</div>
-                   <div>設立: ${(d.data as Agency).founded || "不明"}</div>
-                 </div>
-               </div>`
-            : `<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
-                 <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${d.name}</h4>
-                 <div class="text-sm text-gray-600 dark:text-gray-400">
-                   <div>声優</div>
-                   <div>デビュー: ${(d.data as Actor).debutYear || "不明"}年</div>
-                 </div>
-               </div>`;
-
-        setTooltip({
-          visible: true,
-          x: event.pageX + 10,
-          y: event.pageY + 10,
-          content,
-        });
-      })
-      .on("mouseleave", function () {
-        d3.select(this).select("circle").attr("stroke-width", 2);
-        setTooltip({ visible: false, x: 0, y: 0, content: "" });
-      })
-      .on("click", (event, d) => {
-        const basePath = process.env.GITHUB_ACTIONS ? "/voice-actor" : "";
-        const url =
-          d.type === "agency"
-            ? `${basePath}/agencies/${d.id}`
-            : `${basePath}/actors/${d.id}`;
-        window.location.href = url;
+      .on("mouseenter", showTooltip)
+      .on("mouseleave", hideTooltip)
+      .on("focus", showTooltip)
+      .on("blur", hideTooltip)
+      .on("click", (event, d) => navigateToDetail(d))
+      .on("keydown", function (event, d) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          navigateToDetail(d);
+        }
       });
 
     // シミュレーション更新
@@ -241,11 +274,55 @@ export function NetworkGraph({
 
   return (
     <div ref={containerRef} className="relative w-full">
+      {/* 凡例を上部に配置 */}
+      <div className="mb-4 flex flex-wrap gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white dark:border-gray-800" />
+          <span className="font-medium text-gray-900 dark:text-white">事務所</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white dark:border-gray-800" />
+          <span className="font-medium text-gray-900 dark:text-white">声優（男性）</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-pink-500 border-2 border-white dark:border-gray-800" />
+          <span className="font-medium text-gray-900 dark:text-white">声優（女性）</span>
+        </div>
+        <div className="ml-auto">
+          <button
+            onClick={handleReset}
+            className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+              rounded-lg shadow hover:bg-gray-50 dark:hover:bg-gray-600 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              transition"
+            aria-label="ズームをリセット"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 inline mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            リセット
+          </button>
+        </div>
+      </div>
+
       <svg
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
         className="border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-gray-950"
+        aria-label="声優と事務所の関係性を示すネットワーク図"
+        role="img"
       />
       {tooltip.visible && (
         <div
@@ -254,20 +331,6 @@ export function NetworkGraph({
           dangerouslySetInnerHTML={{ __html: tooltip.content }}
         />
       )}
-      <div className="mt-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-blue-500" />
-          <span>事務所</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-green-500" />
-          <span>声優（男性）</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-pink-500" />
-          <span>声優（女性）</span>
-        </div>
-      </div>
     </div>
   );
 }
